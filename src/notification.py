@@ -990,6 +990,50 @@ class NotificationService(
                     "",
                 ])
         
+
+        # ========== 结构化价格快照表 ==========
+        # 从 dashboard.data_perspective 提取结构化价格数据
+        def _safe_price(val):
+            """安全转换价格值：None/N/A/'' → '-', 数值 → 保留两位小数"""
+            if val is None:
+                return '-'
+            s = str(val).strip()
+            if not s or s == 'N/A':
+                return '-'
+            try:
+                return f"{float(s):.2f}"
+            except (ValueError, TypeError):
+                return s
+
+        price_table_lines = [
+            "",
+            "## 📋 结构化价格快照",
+            "",
+            "| 股票 | 代码 | 当前价 | MA5 | MA10 | MA20 | 量比 | 支撑位 | 压力位 |",
+            "|------|------|--------|-----|------|------|------|--------|--------|",
+        ]
+
+        for result in sorted_results:
+            dashboard = getattr(result, 'dashboard', None) or {}
+            dp = dashboard.get('data_perspective', {}) if dashboard else {}
+            pp = dp.get('price_position', {}) if dp else {}
+            va = dp.get('volume_analysis', {}) if dp else {}
+
+            name = self._get_display_name(result, report_language)
+            code = result.code
+
+            row = (
+                f"| {name} | {code} | { _safe_price(pp.get('current_price'))} | "
+                f"{_safe_price(pp.get('ma5'))} | {_safe_price(pp.get('ma10'))} | "
+                f"{_safe_price(pp.get('ma20'))} | "
+                f"{_safe_price(va.get('volume_ratio'))} | "
+                f"{_safe_price(pp.get('support_level'))} | "
+                f"{_safe_price(pp.get('resistance_level'))} |"
+            )
+            price_table_lines.append(row)
+
+        report_lines.extend(price_table_lines)
+
         # 底部信息（去除免责声明）
         report_lines.extend([
             "",
@@ -1341,6 +1385,50 @@ class NotificationService(
                     "",
                 ])
         
+
+        # ========== 结构化价格快照表 ==========
+        # 从 dashboard.data_perspective 提取结构化价格数据
+        def _safe_price(val):
+            """安全转换价格值：None/N/A/'' → '-', 数值 → 保留两位小数"""
+            if val is None:
+                return '-'
+            s = str(val).strip()
+            if not s or s == 'N/A':
+                return '-'
+            try:
+                return f"{float(s):.2f}"
+            except (ValueError, TypeError):
+                return s
+
+        price_table_lines = [
+            "",
+            "## 📋 结构化价格快照",
+            "",
+            "| 股票 | 代码 | 当前价 | MA5 | MA10 | MA20 | 量比 | 支撑位 | 压力位 |",
+            "|------|------|--------|-----|------|------|------|--------|--------|",
+        ]
+
+        for result in sorted_results:
+            dashboard = getattr(result, 'dashboard', None) or {}
+            dp = dashboard.get('data_perspective', {}) if dashboard else {}
+            pp = dp.get('price_position', {}) if dp else {}
+            va = dp.get('volume_analysis', {}) if dp else {}
+
+            name = self._get_display_name(result, report_language)
+            code = result.code
+
+            row = (
+                f"| {name} | {code} | { _safe_price(pp.get('current_price'))} | "
+                f"{_safe_price(pp.get('ma5'))} | {_safe_price(pp.get('ma10'))} | "
+                f"{_safe_price(pp.get('ma20'))} | "
+                f"{_safe_price(va.get('volume_ratio'))} | "
+                f"{_safe_price(pp.get('support_level'))} | "
+                f"{_safe_price(pp.get('resistance_level'))} |"
+            )
+            price_table_lines.append(row)
+
+        report_lines.extend(price_table_lines)
+
         # 底部（去除免责声明）
         report_lines.extend([
             "",
