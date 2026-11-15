@@ -1,6 +1,10 @@
 name: 每日股票分析
 
 on:
+  # Push trigger - 代码变动时自动运行
+  push:
+    branches: [main]
+  
   # 定时触发 - 每天北京时间 18:00 (UTC 10:00)
   schedule:
     - cron: '35 7 * * 1-5'     # 15:35 北京时间 (UTC 07:35)
