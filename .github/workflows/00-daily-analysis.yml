@@ -47,17 +47,16 @@ jobs:
       
       - name: 检查是否为交易日
         run: |
-          pip install exchange-calendars -q
           python -c "
-          import exchange_calendars as xcals
-          from datetime import date
-          cal = xcals.get_calendar('XSHG')
-          if not cal.is_session(date.today()):
-              print('今日非交易日，跳过运行')
-              import sys; sys.exit(0)
-          print(f'今日是交易日，继续运行')
-          " 
-      
+          import datetime
+          today = datetime.date.today()
+          # 周末不是交易日 (5=周六，6=周日)
+          if today.weekday() >= 5:
+              print(f'今日非交易日（{today.strftime('%A')}），跳过运行')
+              exit(0)
+          print(f'今日是交易日 ({today})，继续运行')
+          "
+
       - name: 设置 Python 环境
         uses: actions/setup-python@v6
         with:
