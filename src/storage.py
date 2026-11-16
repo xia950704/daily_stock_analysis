@@ -1190,7 +1190,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
 
             # 注册退出钩子，确保程序退出时关闭数据库连接
             atexit.register(DatabaseManager._cleanup_engine, self._engine)
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             self._initialized = False
             try:
                 if created_engine is not None:
@@ -1222,7 +1223,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
                 existing = verify_session.get(DatabaseSchemaMigration, CURRENT_SCHEMA_VERSION)
             if existing is None:
                 raise
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             session.rollback()
             raise
         finally:
@@ -1500,7 +1502,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
                         time.sleep(delay)
                     continue
                 raise
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 session.rollback()
                 raise
             finally:
@@ -1554,7 +1557,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
         session = self._SessionLocal()
         try:
             return session
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             session.close()
             raise
 
@@ -1565,7 +1569,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
         try:
             yield session
             session.commit()
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             session.rollback()
             raise
         finally:
@@ -1837,7 +1842,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
             try:
                 payload = json.loads(row.payload or "{}")
                 return payload if isinstance(payload, dict) else None
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 return None
 
     def get_recent_news(self, code: str, days: int = 7, limit: int = 20) -> List[NewsIntel]:
@@ -1980,7 +1986,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
                         parsed = json.loads(row.context_snapshot)
                         if isinstance(parsed, dict):
                             context_snapshot = parsed
-                    except Exception:
+                    except Exception as _e:
+                        logger.warning(f"Unexpected error: {\ _e}")
                         context_snapshot = {}
 
                 if diagnostics is not None:
@@ -2644,7 +2651,8 @@ class DatabaseManager(metaclass=_DatabaseManagerMeta):
         """
         try:
             return json.dumps(data, ensure_ascii=False, default=str)
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return json.dumps(str(data), ensure_ascii=False)
 
     @staticmethod

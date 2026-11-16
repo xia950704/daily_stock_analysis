@@ -177,15 +177,15 @@ def _object_to_dict(value: Any) -> Dict[str, Any]:
             dumped = value.model_dump()
             if isinstance(dumped, dict):
                 return dumped
-        except Exception:
-            pass
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")pass
     if hasattr(value, "dict"):
         try:
             dumped = value.dict()
             if isinstance(dumped, dict):
                 return dumped
-        except Exception:
-            pass
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")pass
     result: Dict[str, Any] = {}
     for key in ("type", "text", "content", "thinking", "signature", "data"):
         if hasattr(value, key):

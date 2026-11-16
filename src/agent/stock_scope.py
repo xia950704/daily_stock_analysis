@@ -75,7 +75,8 @@ def _normalize_stock_code(value: Any) -> str:
         from src.agent.runner import _normalize_tool_stock_code
 
         normalized = _normalize_tool_stock_code(text)
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         normalized = text.strip().upper()
     return normalized if isinstance(normalized, str) else str(normalized)
 
@@ -90,7 +91,8 @@ def _is_denied_candidate(candidate: str, text: str = "") -> bool:
         from src.agent.orchestrator import _COMMON_WORDS
 
         return token in _COMMON_WORDS
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return False
 
 

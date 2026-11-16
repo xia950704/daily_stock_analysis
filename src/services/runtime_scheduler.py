@@ -255,7 +255,8 @@ class RuntimeSchedulerService:
         try:
             _thread.start_new_thread(target, ())
             return
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             # Best-effort fallback for environments where the low-level thread API
             # is unavailable or restricted.
             thread = threading.Thread(target=target, daemon=True)
@@ -352,7 +353,8 @@ class RuntimeSchedulerService:
         )
         try:
             worker.start()
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             self._run_lock.release()
             raise
         return {"accepted": True, "running": True}

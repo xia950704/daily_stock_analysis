@@ -152,7 +152,8 @@ class PortfolioRepository:
             if self._is_sqlite_locked_error(exc):
                 raise PortfolioBusyError("Portfolio ledger is busy; please retry shortly.") from exc
             raise
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             session.rollback()
             raise
         finally:

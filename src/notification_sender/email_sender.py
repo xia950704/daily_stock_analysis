@@ -125,11 +125,12 @@ class EmailSender:
             return
         try:
             server.quit()
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             try:
                 server.close()
-            except Exception:
-                pass
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")pass
     
     def send_to_email(
         self,

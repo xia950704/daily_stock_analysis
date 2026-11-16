@@ -156,8 +156,8 @@ def _first_trading_date_on_or_after(start_date: datetime) -> datetime:
             cal = xcals.get_calendar("XSHG")
             session = cal.date_to_session(start_date.date(), direction="next")
             return datetime.combine(session.date(), datetime.min.time())
-        except Exception:
-            pass
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")pass
 
     current = start_date
     while current.weekday() >= 5:

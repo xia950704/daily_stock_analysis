@@ -133,7 +133,8 @@ def markdown_to_image(markdown_text: str, max_chars: int = 15000) -> Optional[by
         from src.config import get_config
 
         engine = getattr(get_config(), "md2img_engine", "wkhtmltoimage")
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         engine = "wkhtmltoimage"
 
     if engine == "markdown-to-file":

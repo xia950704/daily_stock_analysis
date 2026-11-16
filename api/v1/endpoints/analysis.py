@@ -527,7 +527,8 @@ def trigger_market_review(
             message="大盘复盘任务已提交",
             task_id=task_id,
         )
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         _release_market_review_lock(lock_token)
         raise
 
@@ -994,7 +995,8 @@ def get_analysis_status(task_id: str) -> TaskStatus:
             else:
                 try:
                     result = _build_task_analysis_result(task)
-                except Exception:
+                except Exception as _e:
+                    logger.warning(f"Unexpected error: {\ _e}")
                     logger.warning(
                         "解析任务结果失败，回退为空返回: task_id=%s",
                         task.task_id,

@@ -60,7 +60,8 @@ def get_pr_context():
             payload = json.load(f)
         pr = payload.get('pull_request', {})
         return (pr.get('title') or '').strip(), (pr.get('body') or '').strip()
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return '', ''
 
 

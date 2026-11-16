@@ -381,7 +381,8 @@ def run_market_review(
             persist_region,
         )
         raise
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         logger.exception(
             "[MarketReview] component=market_review action=failed "
             "trigger_source=%s query_id=%s region=%s",

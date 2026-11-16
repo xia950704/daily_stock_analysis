@@ -552,7 +552,8 @@ def _extract_litellm_message_content(response: Any) -> str:
             if isinstance(message, dict):
                 return _env_text(message.get("content"))
             return _env_text(getattr(message, "content", ""))
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return ""
     return ""
 
@@ -745,14 +746,14 @@ def _is_known_eastmoney_hotspot_connectivity_error(exc: BaseException) -> bool:
                 requests.exceptions.ChunkedEncodingError,
             ]
         )
-    except Exception:
-        pass
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")pass
     try:
         import http.client
 
         retryable_types.extend([http.client.RemoteDisconnected, http.client.IncompleteRead])
-    except Exception:
-        pass
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")pass
     try:
         import urllib3.exceptions
 
@@ -764,8 +765,8 @@ def _is_known_eastmoney_hotspot_connectivity_error(exc: BaseException) -> bool:
                 urllib3.exceptions.ConnectTimeoutError,
             ]
         )
-    except Exception:
-        pass
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")pass
 
     retryable_tuple = tuple(retryable_types)
     pending: List[BaseException] = [exc]
@@ -998,7 +999,8 @@ class AlphaSiftService:
             try:
                 hotspot_module = _import_alphasift_hotspot()
                 get_hotspot_detail = getattr(hotspot_module, "get_hotspot_detail", None)
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 get_hotspot_detail = None
             with _alphasift_runtime_env(self.config):
                 if callable(get_hotspot_detail) and type(provider_arg) is DsaEastMoneyHotspotProvider:
@@ -1805,7 +1807,8 @@ def _alphasift_runtime_env(config: Config, *, max_results: Optional[int] = None)
 def _alphasift_dsa_daily_history_provider() -> Iterator[None]:
     try:
         daily_module = importlib.import_module("alphasift.daily")
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         yield
         return
 
@@ -2375,8 +2378,8 @@ class DsaEastMoneyHotspotProvider:
             concept_frame = self._fetch_board_changes_with_fallback()
             if self._board_frame_contains_topic(concept_frame, topic):
                 return False
-        except Exception:
-            pass
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")pass
         try:
             frame = self.stock_board_industry_name_em()
         except Exception as exc:
@@ -2519,7 +2522,8 @@ class DsaEastMoneyHotspotProvider:
                 import ast
 
                 raw = ast.literal_eval(raw)
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 raw = []
         events = []
         for item in raw or []:
@@ -2541,7 +2545,8 @@ class DsaEastMoneyHotspotProvider:
 
         try:
             df = ak.stock_board_concept_summary_ths()
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return ""
         if df is None or df.empty:
             return ""
@@ -2565,7 +2570,8 @@ class DsaEastMoneyHotspotProvider:
 
         try:
             df = ak.stock_board_concept_info_ths(symbol=topic)
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return {}
         if df is None or df.empty or "项目" not in df.columns or "值" not in df.columns:
             return {}
@@ -2582,7 +2588,8 @@ class DsaEastMoneyHotspotProvider:
             if source == "industry":
                 return ak.stock_board_industry_cons_em(symbol=topic)
             return ak.stock_board_concept_cons_em(symbol=topic)
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return None
 
     def _fetch_ths_constituents(self, topic: str) -> Any:
@@ -2618,7 +2625,8 @@ class DsaEastMoneyHotspotProvider:
 
         try:
             df = ak.stock_board_concept_name_ths()
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return ""
         if df is None or df.empty:
             return ""
@@ -2663,7 +2671,8 @@ class DsaEastMoneyHotspotProvider:
             return pd.DataFrame()
         try:
             raw = self._fetch_board_changes_raw()
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return pd.DataFrame()
         df = pd.DataFrame(raw)
         if df.empty:
@@ -2750,7 +2759,8 @@ class DsaEastMoneyHotspotProvider:
         for code in codes:
             try:
                 quote = manager.get_realtime_quote(code, log_final_failure=False)
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 quote = None
             if quote is not None:
                 quote_by_code[code] = quote
@@ -2845,7 +2855,8 @@ def _alphasift_litellm_headers(config: Config) -> Iterator[None]:
 
     try:
         litellm_module = importlib.import_module("litellm")
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         yield
         return
 

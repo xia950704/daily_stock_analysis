@@ -83,7 +83,8 @@ class AgentMemory:
             config = get_config()
             enabled = getattr(config, "agent_memory_enabled", False)
             return cls(enabled=enabled)
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return cls(enabled=False)
 
     # -----------------------------------------------------------------
@@ -225,7 +226,8 @@ class AgentMemory:
                     "sufficient_samples": summary.get("total_evaluations", 0) >= self.min_samples,
                 }
             return {"available": False}
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             return {"available": False}
 
     def get_strategy_performance(self, strategy_id: str) -> Dict[str, Any]:
@@ -307,6 +309,6 @@ class AgentMemory:
                     "direction_accuracy": summary.get("direction_accuracy", 0.5),
                     "avg_confidence": 0.6,  # approximate from historical data
                 }
-        except Exception:
-            pass
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")pass
         return {"total": 0, "accuracy": 0.5, "direction_accuracy": 0.5, "avg_confidence": 0.5}

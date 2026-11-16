@@ -813,8 +813,8 @@ def _to_plain(value: Any) -> Dict[str, Any]:
                 dumped = method()
                 if isinstance(dumped, Mapping):
                     return {str(k): _plain_value(v) for k, v in dumped.items()}
-            except Exception:
-                pass
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")pass
     result: Dict[str, Any] = {}
     for key in (
         "prompt_tokens",
@@ -851,8 +851,8 @@ def _plain_value(value: Any) -> Any:
             try:
                 dumped = method()
                 return _plain_value(dumped)
-            except Exception:
-                pass
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")pass
     return str(value)
 
 
@@ -940,8 +940,8 @@ def _infer_provider(model: str, provider: Optional[str]) -> str:
         inferred = infer_provider_family(model=normalized_model, provider=normalized_provider)
         if inferred:
             return inferred
-    except Exception:
-        pass
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")pass
     route_text = f"{normalized_provider} {normalized_model}"
 
     if normalized_model.startswith("openai/~") or "openrouter" in route_text:

@@ -510,5 +510,6 @@ def _latest_timestamp(df: pd.DataFrame) -> Optional[datetime]:
         if pd.isna(parsed):
             return None
         return parsed.to_pydatetime().replace(tzinfo=None)
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return None

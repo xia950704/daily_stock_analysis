@@ -128,7 +128,8 @@ def _normalize_tool_stock_code(value: Any) -> Any:
         from data_provider.base import canonical_stock_code, normalize_stock_code
 
         return canonical_stock_code(normalize_stock_code(text))
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return text
 
 
@@ -313,7 +314,8 @@ def try_parse_json(text: str) -> Optional[Dict[str, Any]]:
 
     try:
         from json_repair import repair_json
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         repair_json = None
 
     if repair_json is not None:
@@ -334,7 +336,8 @@ def _try_repair_json(text: str, repair_fn: Callable) -> Optional[Dict[str, Any]]
         repaired = repair_fn(text)
         obj = json.loads(repaired)
         return obj if isinstance(obj, dict) else None
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return None
 
 

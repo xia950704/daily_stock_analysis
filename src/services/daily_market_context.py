@@ -713,7 +713,8 @@ def _loads_mapping(value: Any) -> Dict[str, Any]:
         return {}
     try:
         parsed = json.loads(value)
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return {}
     return dict(parsed) if isinstance(parsed, Mapping) else {}
 

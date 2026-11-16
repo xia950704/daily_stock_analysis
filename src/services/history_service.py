@@ -97,7 +97,8 @@ class HistoryService:
 
             raw_canonical = canonical_stock_code(raw_code)
             normalized = canonical_stock_code(normalize_stock_code(raw_canonical))
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             add(raw_code)
             return candidates
 
@@ -118,7 +119,8 @@ class HistoryService:
         if resolved:
             try:
                 resolved_normalized = canonical_stock_code(normalize_stock_code(resolved))
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 resolved_normalized = resolved
             add(resolved)
             add(resolved_normalized)

@@ -73,13 +73,15 @@ def _safe_datetime(value: Any) -> Optional[datetime]:
         return None
     try:
         parsed = pd.to_datetime(value)
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return None
     if pd.isna(parsed):
         return None
     try:
         return parsed.to_pydatetime()
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return None
 
 
@@ -155,7 +157,8 @@ def _filter_rows_by_code(df: pd.DataFrame, stock_code: str) -> pd.DataFrame:
             filtered = df[series == target]
             if not filtered.empty:
                 return filtered
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             continue
     return pd.DataFrame()
 
@@ -253,7 +256,8 @@ def _extract_latest_row(df: pd.DataFrame, stock_code: str) -> Optional[pd.Series
                 matched = df[series == target]
                 if not matched.empty:
                     return matched.iloc[0]
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 continue
         return None
 
@@ -503,7 +507,8 @@ class AkshareFundamentalAdapter:
                 if not cur.empty:
                     matched = cur
                     break
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 continue
         if matched.empty:
             result["source_chain"].append(f"dragon_tiger:{source}")
@@ -516,7 +521,8 @@ class AkshareFundamentalAdapter:
             for val in matched[date_col].astype(str).tolist():
                 try:
                     parsed_dates.append(pd.to_datetime(val).to_pydatetime())
-                except Exception:
+                except Exception as _e:
+                    logger.warning(f"Unexpected error: {\ _e}")
                     continue
         now = datetime.now()
         start = now - timedelta(days=max(1, lookback_days))

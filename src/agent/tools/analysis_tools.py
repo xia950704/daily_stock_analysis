@@ -39,7 +39,8 @@ def _handle_analyze_trend(stock_code: str) -> dict:
     analyzer = StockTrendAnalyzer()
     try:
         result = analyzer.analyze(df, stock_code)
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         logger.warning("analyze_trend(%s): Trend analysis failed", stock_code, exc_info=True)
         return {"error": f"Trend analysis failed for {stock_code}"}
 
@@ -118,7 +119,8 @@ def _handle_calculate_ma(stock_code: str, periods: Optional[str] = None, days: i
         try:
             requested = [int(p.strip()) for p in periods.split(",") if p.strip().isdigit()]
             period_list = sorted(set(requested)) if requested else default_periods
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             period_list = default_periods
     else:
         period_list = default_periods
@@ -227,7 +229,8 @@ def _handle_get_volume_analysis(stock_code: str, days: int = 30) -> dict:
         import numpy as np
         vp_corr = float(pd.Series(volume.values, dtype=float).corr(pd.Series(close.values, dtype=float)))
         vp_corr = round(vp_corr, 3)
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         vp_corr = None
 
     # Detect shrinking volume on up days (bearish divergence) vs expanding on up days (healthy)

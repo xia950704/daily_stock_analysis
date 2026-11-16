@@ -895,7 +895,8 @@ class DataFetcherManager:
     def __del__(self) -> None:
         try:
             self.close()
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             # Best-effort cleanup during interpreter shutdown.
             pass
 

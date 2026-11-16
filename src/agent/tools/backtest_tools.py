@@ -56,7 +56,8 @@ def _handle_get_overall_backtest_summary(eval_window_days: int = 30) -> dict:
         if summary is None:
             return {"info": "No backtest summary available. Backtest may not have been run yet."}
         return _serialize_overall_backtest_summary(summary, eval_window_days)
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         logger.warning("[backtest_tools] get_overall_backtest_summary error", exc_info=True)
         return {"error": "Failed to retrieve backtest summary."}
 
@@ -94,7 +95,8 @@ def _handle_get_skill_backtest_summary(skill_id: str = "", eval_window_days: int
             "avg_simulated_return_pct": summary.get("avg_simulated_return_pct"),
             "computed_at": summary.get("computed_at"),
         }
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         logger.warning("[backtest_tools] get_skill_backtest_summary error", exc_info=True)
         return {"error": "Failed to retrieve backtest summary."}
 
@@ -197,7 +199,8 @@ def _handle_get_stock_backtest_summary(stock_code: str, eval_window_days: int = 
             return {"info": f"No backtest data available for {stock_code}. Backtest may not have been run yet."}
 
         return result
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         logger.warning("[backtest_tools] get_stock_backtest_summary error", exc_info=True)
         return {"error": "Failed to retrieve backtest data."}
 

@@ -141,7 +141,8 @@ class SkillAggregator:
             if summary and summary.get("total_evaluations", 0) >= min_samples:
                 win_rate = summary.get("win_rate", 0.5)
                 return 0.5 + win_rate
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             logger.debug("Failed to compute backtest factor for %s", agent_name, exc_info=True)
         return 1.0
 
@@ -152,7 +153,8 @@ class SkillAggregator:
 
             config = get_config()
             return getattr(config, "agent_skill_autoweight", True)
-        except Exception:
+        except Exception as _e:
+            logger.warning(f"Unexpected error: {\ _e}")
             logger.debug("Failed to get backtest autoweight config, defaulting to True", exc_info=True)
             return True
 

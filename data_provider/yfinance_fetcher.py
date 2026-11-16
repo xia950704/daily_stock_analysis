@@ -567,7 +567,8 @@ class YfinanceFetcher(BaseFetcher):
                     try:
                         dt = datetime.strptime(date_text, "%Y-%m-%d")
                         close_val = float(close_text)
-                    except Exception:
+                    except Exception as _e:
+                        logger.warning(f"Unexpected error: {\ _e}")
                         continue
                     daily_rows.append((dt, close_val))
 
@@ -576,7 +577,8 @@ class YfinanceFetcher(BaseFetcher):
 
                 daily_rows.sort(key=lambda item: item[0])
                 return daily_rows[-2][1]
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 return None
 
         try:
@@ -678,7 +680,8 @@ class YfinanceFetcher(BaseFetcher):
                 high = getattr(info, 'dayHigh', None) or getattr(info, 'day_high', None)
                 low = getattr(info, 'dayLow', None) or getattr(info, 'day_low', None)
                 volume = getattr(info, 'lastVolume', None) or getattr(info, 'last_volume', None)
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 logger.debug("[Yfinance] fast_info 失败，尝试 history 方法")
                 hist = ticker.history(period='2d')
                 if hist.empty:
@@ -780,7 +783,8 @@ class YfinanceFetcher(BaseFetcher):
                 volume = getattr(info, 'lastVolume', None) or getattr(info, 'last_volume', None)
                 market_cap = getattr(info, 'marketCap', None) or getattr(info, 'market_cap', None)
 
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 # 回退到 history 方法获取最新数据
                 logger.debug("[Yfinance] fast_info 失败，尝试 history 方法")
                 hist = ticker.history(period='2d')
@@ -818,7 +822,8 @@ class YfinanceFetcher(BaseFetcher):
             try:
                 info_name = ticker.info.get('shortName', '') or ticker.info.get('longName', '') or ''
                 name = info_name if is_meaningful_stock_name(info_name, symbol) else STOCK_NAME_MAP.get(symbol, '')
-            except Exception:
+            except Exception as _e:
+                logger.warning(f"Unexpected error: {\ _e}")
                 name = STOCK_NAME_MAP.get(symbol, '')
 
             quote = UnifiedRealtimeQuote(

@@ -2411,7 +2411,8 @@ class NotificationService(
                 try:
                     from src.config import get_config
                     engine = getattr(get_config(), "md2img_engine", "wkhtmltoimage")
-                except Exception:
+                except Exception as _e:
+                    logger.warning(f"Unexpected error: {\ _e}")
                     engine = "wkhtmltoimage"
                 hint = (
                     "npm i -g markdown-to-file" if engine == "markdown-to-file"

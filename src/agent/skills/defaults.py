@@ -95,7 +95,8 @@ def _load_builtin_skill_catalog() -> tuple[object, ...]:
         from src.agent.skills.base import load_skills_from_directory
 
         return tuple(load_skills_from_directory(_BUILTIN_SKILLS_DIR))
-    except Exception:
+    except Exception as _e:
+        logger.warning(f"Unexpected error: {\ _e}")
         return ()
 
 
