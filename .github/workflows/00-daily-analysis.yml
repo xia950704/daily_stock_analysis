@@ -45,17 +45,6 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v5
       
-      - name: 检查是否为交易日
-        run: |
-          python -c "
-          import datetime
-          today = datetime.date.today()
-          # 周末不是交易日 (5=周六，6=周日)
-          if today.weekday() >= 5:
-              print(f'今日非交易日（{today.strftime('%A')}），跳过运行')
-              exit(0)
-          print(f'今日是交易日 ({today})，继续运行')
-          "
 
       - name: 设置 Python 环境
         uses: actions/setup-python@v6
