@@ -1888,6 +1888,23 @@ class SearXNGSearchProvider(BaseSearchProvider):
             )
             return []
 
+    @classmethod
+    def _probe_public_instance(cls, url: str) -> bool:
+        """Lightweight runtime health check for a public SearXNG instance."""
+        try:
+            resp = requests.get(url, timeout=5, allow_redirects=False)
+            if resp.status_code != 200:
+                logger.debug("[SearXNG] 实例 %s 健康检查失败 HTTP %s", url, resp.status_code)
+                return False
+            body = resp.text[:200] if getattr(resp, "text", "") else ""
+            if any(kw in (body or "").lower() for kw in ("captcha", "access denied", "bot check", "cloudflare")):
+                logger.debug("[SearXNG] 实例 %s 返回拦截页面，已过滤", url)
+                return False
+            return True
+        except Exception as exc:
+            logger.debug("[SearXNG] 实例 %s 健康检查异常: %s", url, exc)
+            return False
+
     def _rotate_candidates(self, pool: List[str], *, max_attempts: int) -> List[str]:
         if not pool or max_attempts <= 0:
             return []
@@ -2049,6 +2066,12 @@ class SearXNGSearchProvider(BaseSearchProvider):
             empty_error = "SearXNG 未配置可用实例"
         elif self._use_public_instances:
             public_instances = self._get_public_instances()
+            # Runtime health probe: filter out instances that fail live checks
+            probed = [u for u in public_instances if self._probe_public_instance(u)]
+            if probed:
+                filtered = len(public_instances) - len(probed)
+                public_instances = probed
+                logger.info("[SearXNG] 健康探针过滤，剔除 %s 个不可用实例，剩余 %s 个", filtered, len(probed))
             candidates = self._rotate_candidates(
                 public_instances,
                 max_attempts=min(len(public_instances), self.PUBLIC_INSTANCES_MAX_ATTEMPTS),
