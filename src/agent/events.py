@@ -86,7 +86,7 @@ def _read_quote_float(quote: Any, *field_names: str) -> Optional[float]:
             try:
                 raw_value = quote.to_dict().get(field_name)
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 raw_value = None
 
         if raw_value is None:

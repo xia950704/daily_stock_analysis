@@ -166,7 +166,7 @@ class PortfolioRiskService:
                 "items": risk_items,
             }
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             logger.exception("[PortfolioRiskService] Decision signal risk unavailable")
             return self._empty_decision_signal_risk(available=False)
 

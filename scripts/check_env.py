@@ -56,7 +56,7 @@ def _reconfigure_output_stream(stream):
             reconfigure(**kwargs)
             return
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             continue
 
 

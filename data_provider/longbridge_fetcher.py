@@ -122,7 +122,7 @@ def _sanitize_longbridge_env() -> None:
             logger.debug("[Longbridge] 设置 LONGBRIDGE_LOG_PATH=%s",
                          os.environ["LONGBRIDGE_LOG_PATH"])
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")pass
+            logger.warning(f"Unexpected error: {_e}")
 
     region = (os.getenv("LONGBRIDGE_REGION") or "").strip().lower()
     if region:
@@ -148,13 +148,13 @@ def _longbridge_config_kwargs() -> Dict[str, Any]:
         import inspect
         from longbridge.openapi import Config, Language, PushCandlestickMode
     except Exception as _e:
-        logger.warning(f"Unexpected error: {\ _e}")
+        logger.warning(f"Unexpected error: {_e}")
         return {}
 
     try:
         params = inspect.signature(Config.from_apikey).parameters
     except Exception as _e:
-        logger.warning(f"Unexpected error: {\ _e}")
+        logger.warning(f"Unexpected error: {_e}")
         return {}
 
     kw: Dict[str, Any] = {}
@@ -478,7 +478,7 @@ class LongbridgeFetcher(BaseFetcher):
             from src.config import get_config
             creds = _longbridge_credentials(get_config())
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             creds = _longbridge_credentials()
         self._available = _has_legacy_credentials(creds) or _has_oauth_credentials(creds)
         return self._available
@@ -509,7 +509,7 @@ class LongbridgeFetcher(BaseFetcher):
                     from src.config import get_config
                     app_config = get_config()
                 except Exception as _e:
-                    logger.warning(f"Unexpected error: {\ _e}")
+                    logger.warning(f"Unexpected error: {_e}")
                     app_config = None
 
                 creds = _longbridge_credentials(app_config)

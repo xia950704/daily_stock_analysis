@@ -471,7 +471,7 @@ def _handle_get_stock_info(stock_code: str) -> dict:
     try:
         stock_name = manager.get_stock_name(stock_code) or stock_name
     except Exception as _e:
-        logger.warning(f"Unexpected error: {\ _e}")pass
+        logger.warning(f"Unexpected error: {_e}")
 
     return {
         "code": stock_code.upper(),

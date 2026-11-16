@@ -171,7 +171,7 @@ def _parse_items_from_text(text: str) -> List[Tuple[str, Optional[str], str]]:
             parsed_data = repair_json(cleaned, return_objects=True)
             logger.debug("[ImageExtractor] json.loads failed, repaired malformed JSON response")
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             parsed_data = None
 
     if isinstance(parsed_data, list):

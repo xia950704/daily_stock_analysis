@@ -76,7 +76,7 @@ def _normalize_stock_code(value: Any) -> str:
 
         normalized = _normalize_tool_stock_code(text)
     except Exception as _e:
-        logger.warning(f"Unexpected error: {\ _e}")
+        logger.warning(f"Unexpected error: {_e}")
         normalized = text.strip().upper()
     return normalized if isinstance(normalized, str) else str(normalized)
 
@@ -92,7 +92,7 @@ def _is_denied_candidate(candidate: str, text: str = "") -> bool:
 
         return token in _COMMON_WORDS
     except Exception as _e:
-        logger.warning(f"Unexpected error: {\ _e}")
+        logger.warning(f"Unexpected error: {_e}")
         return False
 
 

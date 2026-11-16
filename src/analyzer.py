@@ -1176,7 +1176,7 @@ def _as_dict_for_decision_guard(value: Any) -> Dict[str, Any]:
             converted = value.to_dict()
             return converted if isinstance(converted, dict) else {}
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return {}
     if hasattr(value, "__dict__"):
         return dict(value.__dict__)

@@ -748,7 +748,7 @@ class AlertService:
             try:
                 return quote.to_dict().get(field_name)
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 return None
         return None
 
@@ -762,7 +762,7 @@ class AlertService:
                 try:
                     parsed = cls._coerce_datetime(df[field_name].iloc[-1])
                 except Exception as _e:
-                    logger.warning(f"Unexpected error: {\ _e}")
+                    logger.warning(f"Unexpected error: {_e}")
                     parsed = None
                 if parsed is not None:
                     return parsed
@@ -773,7 +773,7 @@ class AlertService:
                 return None
             return cls._coerce_datetime(index_value)
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return None
 
     @staticmethod
@@ -789,7 +789,7 @@ class AlertService:
                 parsed = value.to_pydatetime()
                 return parsed.replace(tzinfo=None) if parsed.tzinfo is not None else parsed
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 return None
         if isinstance(value, (int, float)) and not isinstance(value, bool):
             try:

@@ -445,7 +445,7 @@ class AnalysisTaskQueue:
                         report_language,
                     )
                 except Exception as _e:
-                    logger.warning(f"Unexpected error: {\ _e}")
+                    logger.warning(f"Unexpected error: {_e}")
                     # Roll back the current batch to avoid partial submission.
                     self._rollback_submitted_tasks_locked(created_task_ids + [task_id])
                     raise
@@ -498,7 +498,7 @@ class AnalysisTaskQueue:
             try:
                 future = self.executor.submit(self._execute_background_task, task_id, run_task)
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 del self._tasks[task_id]
                 raise
 
@@ -547,7 +547,7 @@ class AnalysisTaskQueue:
         try:
             event_payload = copy.deepcopy(flow_event)
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             logger.debug("[TaskQueue] 忽略不可复制的运行流事件: task_id=%s", task_id)
             return None
 

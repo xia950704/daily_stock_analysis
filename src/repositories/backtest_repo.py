@@ -367,7 +367,7 @@ class BacktestRepository:
         try:
             payload = json.loads(context_snapshot)
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return None
 
         if not isinstance(payload, dict):
@@ -384,7 +384,7 @@ class BacktestRepository:
         try:
             return datetime.strptime(str(date_str)[:10], "%Y-%m-%d").date()
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return None
 
     def get_distinct_eval_windows(

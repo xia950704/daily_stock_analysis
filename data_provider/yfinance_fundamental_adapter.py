@@ -216,7 +216,7 @@ class YfinanceFundamentalAdapter:
                 if pd.notna(ts):
                     report_date = ts.date().isoformat()
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")pass
+                logger.warning(f"Unexpected error: {_e}")
             revenue_row = _pick_row(income_df, _INCOME_REVENUE_KEYS)
             net_profit_row = _pick_row(income_df, _INCOME_NET_PROFIT_KEYS)
             revenue_latest = _latest_value(revenue_row)
@@ -284,7 +284,7 @@ class YfinanceFundamentalAdapter:
                     try:
                         event_date = pd.Timestamp(ts).date().isoformat()
                     except Exception as _e:
-                        logger.warning(f"Unexpected error: {\ _e}")
+                        logger.warning(f"Unexpected error: {_e}")
                         continue
                     events.append({
                         "event_date": event_date,
@@ -299,7 +299,7 @@ class YfinanceFundamentalAdapter:
                     try:
                         event_ts = pd.Timestamp(item["event_date"]).tz_localize(div_series.index.tz)
                     except Exception as _e:
-                        logger.warning(f"Unexpected error: {\ _e}")
+                        logger.warning(f"Unexpected error: {_e}")
                         continue
                     if event_ts >= cutoff:
                         ttm_events.append(item)

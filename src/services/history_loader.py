@@ -87,7 +87,7 @@ def _coerce_bar_date(value: Any) -> date:
             coerced = value.date()
             return coerced if isinstance(coerced, date) else date.min
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return date.min
     return date.min
 
@@ -100,7 +100,7 @@ def _bar_date(bar: Any) -> date:
         try:
             return _coerce_bar_date((bar.to_dict() or {}).get("date"))
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return date.min
     return date.min
 

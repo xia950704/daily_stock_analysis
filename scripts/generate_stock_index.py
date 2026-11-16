@@ -74,7 +74,7 @@ def generate_stock_index_from_map() -> List[Dict[str, Any]]:
                 pinyin_full = ''.join(py)
                 pinyin_abbr = ''.join([p[0] for p in py])
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")pass
+                logger.warning(f"Unexpected error: {_e}")
 
         # Determine market and asset type.
         market, asset_type = determine_market_and_type(code)

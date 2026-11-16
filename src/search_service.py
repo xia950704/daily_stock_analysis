@@ -430,7 +430,7 @@ class TavilySearchProvider(BaseSearchProvider):
             domain = parsed.netloc.replace('www.', '')
             return domain or '未知来源'
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return '未知来源'
 
 
@@ -679,7 +679,7 @@ class SerpAPISearchProvider(BaseSearchProvider):
             parsed = urlparse(url)
             return parsed.netloc.replace('www.', '') or '未知来源'
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return '未知来源'
 
     @classmethod
@@ -946,7 +946,7 @@ class BochaSearchProvider(BaseSearchProvider):
                     else:
                         error_message = response.text
                 except Exception as _e:
-                    logger.warning(f"Unexpected error: {\ _e}")
+                    logger.warning(f"Unexpected error: {_e}")
                     error_message = response.text
                 
                 # 根据错误码处理
@@ -1070,7 +1070,7 @@ class BochaSearchProvider(BaseSearchProvider):
             domain = parsed.netloc.replace('www.', '')
             return domain or '未知来源'
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return '未知来源'
 
 
@@ -1132,7 +1132,7 @@ class AnspireSearchProvider(BaseSearchProvider):
                     else:
                         error_message = response.text
                 except Exception as _e:
-                    logger.warning(f"Unexpected error: {\ _e}")
+                    logger.warning(f"Unexpected error: {_e}")
                     error_message = response.text
                 
                 # 根据错误码处理
@@ -1260,7 +1260,7 @@ class AnspireSearchProvider(BaseSearchProvider):
             domain = parsed.netloc.replace('www.', '')
             return domain or '未知来源'
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return '未知来源'
 
 
@@ -1367,7 +1367,7 @@ class MiniMaxSearchProvider(BaseSearchProvider):
             now = datetime.now(timezone.utc) if dt.tzinfo else datetime.now()
             return (now - dt) <= timedelta(days=days + 1)  # +1 buffer
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return True  # Keep result when date is unparseable
 
     # ------------------------------------------------------------------
@@ -1483,7 +1483,7 @@ class MiniMaxSearchProvider(BaseSearchProvider):
                 return msg
             return response.text[:200]
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return f"HTTP {response.status_code}: {response.text[:200]}"
 
     @staticmethod
@@ -1495,7 +1495,7 @@ class MiniMaxSearchProvider(BaseSearchProvider):
             domain = parsed.netloc.replace('www.', '')
             return domain or '未知来源'
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return '未知来源'
 
 
@@ -1671,7 +1671,7 @@ class BraveSearchProvider(BaseSearchProvider):
                 return str(error_data)
             return response.text[:200]
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return f"HTTP {response.status_code}: {response.text[:200]}"
 
     @staticmethod
@@ -1683,7 +1683,7 @@ class BraveSearchProvider(BaseSearchProvider):
             domain = parsed.netloc.replace('www.', '')
             return domain or '未知来源'
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return '未知来源'
 
     def search(
@@ -1764,7 +1764,7 @@ class SearXNGSearchProvider(BaseSearchProvider):
             body = raw_text.strip() if isinstance(raw_text, str) else ""
             return body[:200] if body else f"HTTP {response.status_code}"
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             raw_text = getattr(response, "text", "")
             body = raw_text if isinstance(raw_text, str) else ""
             return f"HTTP {response.status_code}: {body[:200]}"
@@ -1944,7 +1944,7 @@ class SearXNGSearchProvider(BaseSearchProvider):
             try:
                 data = response.json()
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 return SearchResponse(
                     query=query,
                     results=[],
@@ -2033,7 +2033,7 @@ class SearXNGSearchProvider(BaseSearchProvider):
             domain = parsed.netloc.replace("www.", "")
             return domain or "未知来源"
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return "未知来源"
 
     def search(self, query: str, max_results: int = 5, days: int = 7) -> SearchResponse:

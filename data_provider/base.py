@@ -896,7 +896,7 @@ class DataFetcherManager:
         try:
             self.close()
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             # Best-effort cleanup during interpreter shutdown.
             pass
 

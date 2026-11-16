@@ -154,7 +154,7 @@ def analysis_context_pack_to_dict(pack: Any) -> Dict[str, Any]:
         except TypeError:
             dumped = model_dump()
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             return {}
         return dict(dumped) if isinstance(dumped, Mapping) else {}
     return {}

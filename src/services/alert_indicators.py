@@ -511,5 +511,5 @@ def _latest_timestamp(df: pd.DataFrame) -> Optional[datetime]:
             return None
         return parsed.to_pydatetime().replace(tzinfo=None)
     except Exception as _e:
-        logger.warning(f"Unexpected error: {\ _e}")
+        logger.warning(f"Unexpected error: {_e}")
         return None

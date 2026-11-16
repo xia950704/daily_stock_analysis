@@ -2608,13 +2608,13 @@ class StockAnalysisPipeline:
             try:
                 return value.to_dict()
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 return None
         if hasattr(value, "__dict__"):
             try:
                 return dict(value.__dict__)
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 return None
         return None
 
@@ -3193,7 +3193,7 @@ class StockAnalysisPipeline:
                     try:
                         engine = getattr(get_config(), "md2img_engine", "wkhtmltoimage")
                     except Exception as _e:
-                        logger.warning(f"Unexpected error: {\ _e}")
+                        logger.warning(f"Unexpected error: {_e}")
                         engine = "wkhtmltoimage"
                     return (
                         "npm i -g markdown-to-file" if engine == "markdown-to-file"

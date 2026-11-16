@@ -216,7 +216,7 @@ def parse_import_from_bytes(data: bytes, filename: Optional[str] = None) -> List
             f"常见原因：引号未闭合、某行列数与其他行不一致。原始错误: {e}"
         ) from e
     except Exception as _e:
-        logger.warning(f"Unexpected error: {\ _e}")pass
+        logger.warning(f"Unexpected error: {_e}")
 
     # Fallback: plain text, split by comma/tab/space
     lines = text.strip().splitlines()

@@ -680,7 +680,7 @@ class AgentExecutor:
                 anchor_assistant_message_id=assistant_message_id,
             )
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             logger.warning(
                 "Provider trace extraction failed for session %s run %s",
                 session_id,
@@ -702,7 +702,7 @@ class AgentExecutor:
         try:
             db = get_db()
         except Exception as _e:
-            logger.warning(f"Unexpected error: {\ _e}")
+            logger.warning(f"Unexpected error: {_e}")
             logger.warning(
                 "Provider trace storage unavailable for session %s run %s",
                 session_id,
@@ -728,7 +728,7 @@ class AgentExecutor:
                     estimated_tokens=turn.estimated_tokens,
                 )
             except Exception as _e:
-                logger.warning(f"Unexpected error: {\ _e}")
+                logger.warning(f"Unexpected error: {_e}")
                 logger.warning(
                     "Provider trace persistence failed for session %s run %s provider=%s model=%s",
                     session_id,
