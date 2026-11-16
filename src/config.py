@@ -1258,6 +1258,11 @@ class Config:
 
         # LITELLM_MODEL: explicit config takes precedence; else infer from available keys
         litellm_model = os.getenv('LITELLM_MODEL', '').strip()
+        # Auto-prefix openai/ for third-party OpenAI-compatible gateways when
+        # LITELLM_MODEL is set without a provider prefix (prevents
+        # 'LLM Provider NOT provided' error on agnes-ai, etc.).
+        if litellm_model and '/' not in litellm_model and openai_base_url and 'api.openai.com' not in openai_base_url:
+            litellm_model = f'openai/{litellm_model}'
         inferred_legacy_deepseek_model = False
         _openai_model_env = os.getenv('OPENAI_MODEL', '').strip()
         if using_anspire_llm_legacy:
